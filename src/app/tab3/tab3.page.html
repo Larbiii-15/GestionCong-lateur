@@ -1,7 +1,8 @@
+<!-- tab3.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Nourriture à manger avant {{nbOfDaysAgo}} jours
+      Nourriture à manger avant {{ nbOfDaysAgo }} jours
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,19 +10,29 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Nourriture à Consommer</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <!-- Message to display when no food items are available -->
+  <div *ngIf="allFoodToEatSoon?.length === 0" class="ion-padding">
+    <ion-text color="medium">
+      <p class="ion-text-center">Aucun aliment à afficher.</p>
+    </ion-text>
+  </div>
+
+  <!-- List of food items -->
   <ion-list>
     <ion-item *ngFor="let foodItem of allFoodToEatSoon">
       <ion-label>
-        <h2>{{foodItem.foodName}}</h2>
+        <h2>{{ foodItem.foodName }}</h2>
         <p>
-          à manger avant {{foodItem.betterToEatBefore |date}} (added on
-          {{foodItem.datePlacedInFreezer | date}})
+          À manger avant: {{ foodItem.betterToEatBefore | date:'mediumDate' }}<br>
+          Placé dans le congélateur le: {{ foodItem.datePlacedInFreezer | date:'mediumDate' }}
         </p>
       </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
+
+

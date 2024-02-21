@@ -5,7 +5,7 @@ export interface Food {
 
     id? : string;
     foodName : string;
-    datePlacedInFreezer : string; 
+    datePlacedInFreezer : Date; 
     category?: Category;
     betterToEatBefore?: Date;
 }

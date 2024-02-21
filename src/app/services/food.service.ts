@@ -59,10 +59,16 @@ export class FoodService {
   getFoodToEatBeforeDaysAgo(nbOfDaysInFreezer: number): Observable<Food[]> {
     const daysInMilliseconds = nbOfDaysInFreezer * 24 * 3600 * 1000;
     const dateInFuture = new Date(Date.now() + daysInMilliseconds);
-    return this.afs
-      .collection('freezer', ref => ref.where('betterToEatBefore', '<', dateInFuture))
-      .valueChanges() as Observable<Food[]>;
-  }
+    return this.afs.collection<Food>('freezer', ref =>
+ref.where('betterToEatBefore', '<', dateInFuture)
+).snapshotChanges().pipe(
+map(actions => actions.map(a => {
+const data = a.payload.doc.data() as Food;
+const id = a.payload.doc.id;
+return { id, ...data };
+}))
+);
+}  
 
 
   updateFood(food: Food): Observable<any> {
@@ -73,5 +79,14 @@ export class FoodService {
   deleteFood(id: string): Observable <any> {
 
     return from(this.afs.doc(`freezer/${id}`).delete());
+  }
+
+  getCategoryById(id: string): Category {
+    // Example logic to return a category
+    return {
+      id: id,
+      name: 'Fruits',
+      maxStayInFreezerInMonth: 12
+    };
   }
 }
