@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Nourriture à manger avant {{nbOfDaysAgo}} days
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,5 +13,15 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-list>
+    <ion-item *ngFor="let foodItem of allFoodToEatSoon">
+      <ion-label>
+        <h2>{{foodItem.foodName}}</h2>
+        <p>
+          à manger avant {{foodItem.betterToEatBefore |date}} (added on
+          {{foodItem.datePlacedInFreezer | date}})
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
