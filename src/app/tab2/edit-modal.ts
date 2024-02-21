@@ -64,21 +64,29 @@ export class EditModal implements OnInit, OnDestroy {
   }
   
 
- update() {
-    console.log(this.form.value);
-    const updateFood = {...this.form.value, id: this.foodItem?.id};
+  update() {
+    if (!this.foodItem || this.foodItem.id === undefined) {
+      console.error('Cannot update: Food item or its ID is undefined');
+      return;
+    }
+  
+    console.log('Form values before update:', this.form.value);
+    const updateFood = {...this.form.value, id: this.foodItem.id};
+    console.log('Update object:', updateFood);
+  
     this.foodService.updateFood(updateFood).subscribe(async () => {
         const toast = await this.toastCtrl.create({
-            message: 'update à réussi',
+            message: 'Update successful',
             duration: 2000,
             color: 'primary',
             position: 'bottom',
         });
-
-    await toast.present();
-        
-    })
+        await toast.present();
+      }, error => {
+        console.error('Error updating food item:', error);
+    });
   }
+   
 
   goback(){
     this.modalCtrl.dismiss();
